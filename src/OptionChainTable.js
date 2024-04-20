@@ -1,47 +1,36 @@
 import React from 'react';
+import './OptionChainTable.css'; // Make sure you link to the appropriate CSS file
 
 const OptionChainTable = ({ response }) => {
-    return (
-        <table>
-            <thead>
-                <tr>
-                    <th>{response.optionType} Strike Positions for {response.assetName}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {response.optionChain.map((chainLink, index) => (
-                    <React.Fragment key={index}>
-                        <tr>
-                            <th>Asset Price: {chainLink.assetPrice.toFixed(2)}</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                {chainLink.strikePositions.map((strikePosition, index) => (
-                                    <table key={index}>
-                                        <thead>
-                                            <tr>
-                                                <th>Strike Price</th>
-                                                <th>Days to Expiry</th>
-                                                <th>Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {strikePosition.positions.map((expiryPrice, index) => (
-                                                <tr key={index}>
-                                                    {index === 0 && <td rowSpan={strikePosition.positions.length}>{strikePosition.strikePrice.toFixed(2)}</td>}
-                                                    <td>{expiryPrice.daysToExpiry}</td>
-                                                    <td>{expiryPrice.price.toFixed(2)}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                ))}
-                            </td>
-                        </tr>
-                    </React.Fragment>
-                ))}
-            </tbody>
-        </table>
-    );
+  return (
+    <div className="option-chain-container">
+      <div className="header">
+        {response.optionType} Strike Positions for {response.assetName}
+      </div>
+      {response.optionChain.map((chainLink, index) => (
+        <div className="asset-section" key={index}>
+          <div className="asset-heading">
+            <div className="asset-price">Asset Price: {chainLink.assetPrice.toFixed(2)}</div>
+            <div className="expiry-heading">
+              {response.daysToExpiry.map((day, index) => (
+                <div key={index} className="expiry-title">{day}</div>
+              ))}
+            </div>
+          </div>
+          <div className="strike-data-container">
+            {chainLink.strikePositions.map((strikePosition, idx) => (
+              <div className="strike-row" key={idx}>
+                <div className="strike-price">{strikePosition.strikePrice.toFixed(2)}</div>
+                {response.daysToExpiry.map((day, expiryIndex) => {
+                  const position = strikePosition.positions.find(p => p.daysToExpiry === day);
+                  return <div key={expiryIndex} className="price">{position ? position.price.toFixed(2) : '-'}</div>;
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 export default OptionChainTable;

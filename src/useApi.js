@@ -8,6 +8,7 @@ const useApi = (baseUrl, endpoint) => {
     const callApi = async (formData) => {
         setLoading(true);
         const url = `${baseUrl}/${endpoint}?${new URLSearchParams(formData).toString()}`;
+        let errReached = false;
         
         try {
             const response = await fetch(url);
@@ -18,8 +19,12 @@ const useApi = (baseUrl, endpoint) => {
             setData(data);
         } catch (error) {
             setError(error.message);
+            errReached = true;
         } finally {
             setLoading(false);
+            if (!errReached) {
+                setError(null);
+            }
         }
     };
 
