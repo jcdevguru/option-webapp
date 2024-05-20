@@ -101,12 +101,12 @@ const OptionChainForm = ({ onSubmit }) => {
                 </label>
             </fieldset>
             <label style={labelStyle}>
-                Risk-Free Rate:
-                <input type="number" name="riskFreeRate" value={formData.riskFreeRate} onChange={handleChange} />
-            </label>
-            <label style={labelStyle}>
                 Volatility:
                 <input type="number" name="volatility" value={formData.volatility} onChange={handleChange} />
+            </label>
+            <label style={labelStyle}>
+                Risk-Free Rate:
+                <input type="number" name="riskFreeRate" value={formData.riskFreeRate} onChange={handleChange} />
             </label>
             <button type="submit">Calculate Option Chain</button>
         </form>
