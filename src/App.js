@@ -9,7 +9,7 @@ const App = () => {
   const { REACT_APP_API_URL, USE_PROXY } = env;
   const baseUrl = USE_PROXY ? '' : REACT_APP_API_URL;
 
-  const { data: response, loading, error, callApi } = useApi(baseUrl, 'api/v1/optionChain');
+  const { data: response, loading, error, callApi } = useApi(baseUrl, 'api/v1/client/optionChain');
 
   const handleSubmit = async (formData) => {
     await callApi(formData);
